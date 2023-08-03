@@ -1,0 +1,5 @@
+- Make sure loading paths on auto start doesnt take too long
+- Make sure swerve wheels spin correct direction and angular offset
+- Set all IDs
+- Check power distribution logging
+- Check track width/wheel dimensions changes
