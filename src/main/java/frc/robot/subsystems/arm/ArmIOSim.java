@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import frc.robot.Constants;
 
 public class ArmIOSim implements ArmIO {
   private SingleJointedArmSim sim = new SingleJointedArmSim(DCMotor.getNEO(2), 60, 0.4, 0.36, 0, 3.47, true);
@@ -11,7 +12,7 @@ public class ArmIOSim implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    sim.update(0.02);
+    sim.update(Constants.DT);
 
     inputs.positionRev = Units.radiansToRotations(sim.getAngleRads());
     inputs.velocityRev = Units.radiansToRotations(sim.getVelocityRadPerSec());

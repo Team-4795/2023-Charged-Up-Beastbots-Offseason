@@ -27,6 +27,7 @@ import frc.robot.subsystems.arm.ArmIOReal;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOReal;
+import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.vision.Vision;
 
 /**
@@ -38,7 +39,7 @@ import frc.robot.subsystems.vision.Vision;
  */
 public class RobotContainer {
   // Subsystems
-  private final Intake flywheel;
+  private final Intake intake;
   private final Arm arm;
   private final Drive drive;
   // private final Vision vision;
@@ -58,20 +59,8 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
-        flywheel = new Intake(new IntakeIOReal());
+        intake = new Intake(new IntakeIOSim());
         arm = new Arm(new ArmIOSim());
-        drive = new Drive(
-          new GyroIOSim(),
-          new ModuleIOSparkMax(0),
-          new ModuleIOSparkMax(1),
-          new ModuleIOSparkMax(2),
-          new ModuleIOSparkMax(3));
-        break;
-
-      // Real robot, create hardware classes
-      case REAL:
-        flywheel = new Intake(new IntakeIO() {});
-        arm = new Arm(new ArmIOReal());
         drive = new Drive(
           new GyroIOSim(),
           new ModuleIOSim(),
@@ -80,9 +69,21 @@ public class RobotContainer {
           new ModuleIOSim());
         break;
 
+      // Real robot, create hardware classes
+      case REAL:
+        intake = new Intake(new IntakeIOReal());
+        arm = new Arm(new ArmIOReal());
+        drive = new Drive(
+          new GyroIOSim(),
+          new ModuleIOSparkMax(0),
+          new ModuleIOSparkMax(1),
+          new ModuleIOSparkMax(2),
+          new ModuleIOSparkMax(3));
+        break;
+
       // Replayed robot, disable IO implementations
       default:
-        flywheel = new Intake(new IntakeIO() {});
+        intake = new Intake(new IntakeIO() {});
         arm = new Arm(new ArmIO() {});
         drive = new Drive(
           new GyroIO() {},
@@ -92,9 +93,6 @@ public class RobotContainer {
           new ModuleIO() {});
         break;
     }
-
-    // Set up auto routines
-    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
     // Run arm using axis 1 (W,S) as input
     // Multiply input by 0.5 to reduce speed

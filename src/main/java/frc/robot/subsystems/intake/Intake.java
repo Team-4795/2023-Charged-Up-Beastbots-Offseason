@@ -11,10 +11,11 @@ public class Intake extends SubsystemBase {
   public Intake(IntakeIO io) {
     this.io = io;
   }
-
+  
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.getInstance().processInputs("Flywheel", inputs);
+    Logger.getInstance().processInputs("Intake", inputs);
+    io.set(1.0);
   }
 }
