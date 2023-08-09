@@ -18,6 +18,7 @@ import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
+import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.GyroIOSim;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
@@ -74,7 +75,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOReal());
         arm = new Arm(new ArmIOReal());
         drive = new Drive(
-          new GyroIOSim(),
+          new GyroIONavX(),
           new ModuleIOSparkMax(0),
           new ModuleIOSparkMax(1),
           new ModuleIOSparkMax(2),

@@ -86,6 +86,15 @@ public final class Constants {
     public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
+    public static final int kDrivingMotorPinionTeeth = 14;
+    public static final double kDrivingMotorReduction = (45.0 * 22.0) / (kDrivingMotorPinionTeeth * 15.0);
+
+    public static final double kDrivingEncoderPositionFactor = 1.0 / kDrivingMotorReduction; // radians
+    public static final double kDrivingEncoderVelocityFactor = (1.0 / kDrivingMotorReduction) / 60.0; // radians per second
+
+    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+
     public static final int kDrivingMotorCurrentLimit = 60; // amps
     public static final int kTurningMotorCurrentLimit = 25; // amps
 }
