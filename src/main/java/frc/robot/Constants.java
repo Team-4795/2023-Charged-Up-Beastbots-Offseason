@@ -98,4 +98,9 @@ public final class Constants {
     public static final int kDrivingMotorCurrentLimit = 60; // amps
     public static final int kTurningMotorCurrentLimit = 25; // amps
 }
+  public static final class ArmConstants{
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+  }
 }
