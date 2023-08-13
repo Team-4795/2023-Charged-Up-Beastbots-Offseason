@@ -124,8 +124,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Key 'z' when using Keyboard 0 inside the Simulation GUI as port 0
-    // controller.button(1)
-    //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
+    operatorController.a().onTrue(Commands.runOnce(intake::setIntake, intake));
+    operatorController.b().onTrue(Commands.runOnce(intake::setOutake, intake));
   }
 
   /**
