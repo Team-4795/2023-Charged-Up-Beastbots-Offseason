@@ -126,6 +126,7 @@ public class RobotContainer {
     // Key 'z' when using Keyboard 0 inside the Simulation GUI as port 0
     operatorController.a().onTrue(Commands.runOnce(intake::setIntake, intake));
     operatorController.b().onTrue(Commands.runOnce(intake::setOutake, intake));
+    operatorController.x().onTrue(Commands.runOnce(() -> intake.setIntakeSpeed(0)));
   }
 
   /**

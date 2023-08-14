@@ -19,6 +19,10 @@ public class Intake extends SubsystemBase {
   public void setOutake() {
     io.set(-0.69);
   }
+
+  public void setIntakeSpeed(double speed){
+    io.set(speed);
+  }
   
   @Override
   public void periodic() {
