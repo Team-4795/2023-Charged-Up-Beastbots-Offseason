@@ -132,8 +132,8 @@ public class RobotContainer {
     //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
     
     // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
-    operatorController.a().whileTrue(Commands.run(arm::moveUp, arm));
-    operatorController.b().whileTrue(Commands.run(arm::moveDown, arm));
+    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
 
     }
 
