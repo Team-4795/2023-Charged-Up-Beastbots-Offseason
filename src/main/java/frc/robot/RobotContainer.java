@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveWithJoysticks;
@@ -130,8 +131,9 @@ public class RobotContainer {
     // controller.button(1)
     //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
     
-    operatorController.a().whileTrue(new RunCommand(arm::moveUp, arm));
-    operatorController.x().whileTrue(new RunCommand(arm::moveDown, arm));
+    // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
+    operatorController.a().whileTrue(Commands.run(arm::moveUp, arm));
+    operatorController.b().whileTrue(Commands.run(arm::moveDown, arm));
 
     }
 
