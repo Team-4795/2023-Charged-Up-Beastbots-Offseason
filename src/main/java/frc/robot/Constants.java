@@ -100,6 +100,17 @@ public final class Constants {
     public static final int kTurningMotorCurrentLimit = 25; // amps
 }
 
+  public static final class ArmConstants{
+    public static final double kP = 7;
+    public static final double kI = 0.001;
+    public static final double kD = 0;
+
+    public static final double maxPosRev = 0.55;
+
+    public static final double minPosRev = 0.0;
+  }
+
+
   public static final class CubeSetpointConstants {
         public static final Setpoints kLowPickup = new Setpoints(0.0, 0);
         public static final Setpoints kStowHigh = new Setpoints(0.0, 0);

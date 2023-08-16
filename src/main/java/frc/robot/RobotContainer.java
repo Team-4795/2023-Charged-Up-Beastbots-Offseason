@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.arm.Arm;
@@ -136,7 +140,12 @@ public class RobotContainer {
     // Key 'z' when using Keyboard 0 inside the Simulation GUI as port 0
     // controller.button(1)
     //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
-  }
+    
+    // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
+    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

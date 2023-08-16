@@ -24,7 +24,7 @@ public class ArmVisualizer {
     }
 
     public void update(double armAngle) {
-        arm.setAngle(Units.rotationsToRadians(armAngle));
+        arm.setAngle(Units.rotationsToDegrees(armAngle));
         Logger.getInstance().recordOutput("ArmMechanism2d", mechanism);
     }
 }
