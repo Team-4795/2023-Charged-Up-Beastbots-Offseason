@@ -65,9 +65,9 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
-        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOSim());
         arm = new Arm(new ArmIOSim());
+        manager = new StateManager(arm, intake);
         drive = new Drive(
           new GyroIOSim(),
           new ModuleIOSim(),
@@ -78,9 +78,9 @@ public class RobotContainer {
 
       // Real robot, create hardware classes
       case REAL:
-        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOReal());
         arm = new Arm(new ArmIOReal());
+        manager = new StateManager(arm, intake);
         drive = new Drive(
           new GyroIONavX(),
           new ModuleIOSparkMax(0),
@@ -91,9 +91,9 @@ public class RobotContainer {
 
       // Replayed robot, disable IO implementations
       default:
-        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIO() {});
         arm = new Arm(new ArmIO() {});
+        manager = new StateManager(arm, intake);
         drive = new Drive(
           new GyroIO() {},
           new ModuleIO() {},

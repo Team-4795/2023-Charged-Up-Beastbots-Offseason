@@ -10,55 +10,43 @@ import org.littletonrobotics.junction.Logger;
 public class StateManager extends VirtualSubsystem {
     private State state;
     private Gamepiece gamepiece;
-    private static StateManager mInstance;
-
-    public static StateManager getInstance() {
-        if (mInstance == null) {
-            mInstance = new StateManager();
-        }
-
-        return mInstance;
-    }
+    private Arm arm; 
+    private Intake intake;
 
 
-     public StateManager() {
+     public StateManager(Arm arm, Intake intake) {
         state = State.StowInFrame;
         gamepiece = Gamepiece.Cube;
+        this.arm = arm; 
+        this.intake = intake; 
     }
 
 
     public enum Gamepiece {
-        Cube,
-        Cone,
+        Cube
     }
 
 
     public enum State {
-        LowPickup(CubeSetpointConstants.kLowPickup, ConeSetpointConstants.kLowPickup),
-        StowHigh(CubeSetpointConstants.kStowHigh, ConeSetpointConstants.kStowHigh),
-        DoubleFeeder(CubeSetpointConstants.kDoubleFeeder, ConeSetpointConstants.kDoubleFeeder),
-        LowScore(CubeSetpointConstants.kLowScore, ConeSetpointConstants.kLowScore),
-        MidScore(CubeSetpointConstants.kMidScore, ConeSetpointConstants.kMidScore),
-        HighScore(CubeSetpointConstants.kHighScore, ConeSetpointConstants.kHighScore),
-        StowInFrame(CubeSetpointConstants.kStowInFrame, ConeSetpointConstants.kStowInFrame),
-        StowLow(CubeSetpointConstants.kStowLow, ConeSetpointConstants.kStowLow);
+        LowPickup(CubeSetpointConstants.kLowPickup),
+        StowHigh(CubeSetpointConstants.kStowHigh),
+        DoubleFeeder(CubeSetpointConstants.kDoubleFeeder),
+        LowScore(CubeSetpointConstants.kLowScore),
+        MidScore(CubeSetpointConstants.kMidScore),
+        HighScore(CubeSetpointConstants.kHighScore),
+        StowInFrame(CubeSetpointConstants.kStowInFrame),
+        StowLow(CubeSetpointConstants.kStowLow);
         
         Setpoints cubeSetpoint;
-        Setpoints coneSetpoint;
 
-        State(Setpoints cubeSetpoint, Setpoints coneSetpoint) {
+        State(Setpoints cubeSetpoint) {
             this.cubeSetpoint = cubeSetpoint;
-            this.coneSetpoint = coneSetpoint;
         }
     }
 
 
     public void pickCube() {
         gamepiece = Gamepiece.Cube;
-    }
-
-    public void pickCone() {
-        gamepiece = Gamepiece.Cone;
     }
 
    
@@ -112,8 +100,6 @@ public class StateManager extends VirtualSubsystem {
         switch (getGamepiece()) {
             case Cube:
                 return state.cubeSetpoint;
-            case Cone:
-                return state.coneSetpoint;
             default:
                 throw new AssertionError("Invalid gamepiece");
         }
@@ -141,8 +127,8 @@ public class StateManager extends VirtualSubsystem {
     // wont work as of now becaue no methods are implemented yet
 
     public void setSetpoints() {
-       // Arm.getInstance().setTargetPosition(getArmSetpoint());
-       // Intake.getInstance().setOuttakeSpeed(getOuttakeSetpoint());
+       arm.setPoint(getArmSetpoint());
+       intake.setIntakeSpeed(getOuttakeSetpoint());
     }
 
     public void periodic() {

@@ -30,6 +30,10 @@ public class Arm extends SubsystemBase {
       this.setpoint += 0.01;
   }
 
+    public void setPoint(double Position) {
+      setpoint = Position; 
+    }
+    
   public void moveDown() {
     if(setpoint > ArmConstants.minPosRev)
       this.setpoint -= 0.01;
@@ -46,5 +50,6 @@ public class Arm extends SubsystemBase {
 
     // Update visualizer position
     viz.update(inputs.positionRev);
+
   }
 }
