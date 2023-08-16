@@ -2,6 +2,7 @@ package frc.robot.subsystems.arm;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -16,6 +17,7 @@ public class ArmIOReal implements ArmIO {
     public ArmIOReal() {
         rightArmMotor.restoreFactoryDefaults();
         encoder = leftArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        leftArmMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public void updateInputs(ArmIOInputs inputs) {

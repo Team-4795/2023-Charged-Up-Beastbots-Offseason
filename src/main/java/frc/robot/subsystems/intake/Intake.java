@@ -23,6 +23,10 @@ public class Intake extends SubsystemBase {
   public void setIntakeSpeed(double speed){
     io.set(speed);
   }
+  public static boolean isStoring(){
+    return true;
+  }
+
   
   @Override
   public void periodic() {

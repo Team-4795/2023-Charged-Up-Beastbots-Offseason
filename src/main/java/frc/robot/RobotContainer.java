@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.arm.Arm;
@@ -43,6 +47,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Arm arm;
   private final Drive drive;
+  private final StateManager manager;
   // private final Vision vision;
 
   // Controller
@@ -60,6 +65,7 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOSim());
         arm = new Arm(new ArmIOSim());
         drive = new Drive(
@@ -72,6 +78,7 @@ public class RobotContainer {
 
       // Real robot, create hardware classes
       case REAL:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOReal());
         arm = new Arm(new ArmIOReal());
         drive = new Drive(
@@ -84,6 +91,7 @@ public class RobotContainer {
 
       // Replayed robot, disable IO implementations
       default:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIO() {});
         arm = new Arm(new ArmIO() {});
         drive = new Drive(
@@ -112,6 +120,12 @@ public class RobotContainer {
         () -> -driverController.getRightX(),
         () -> false));
 
+
+    operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
+    operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
+    operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
+    operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -124,10 +138,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Key 'z' when using Keyboard 0 inside the Simulation GUI as port 0
-    operatorController.a().onTrue(Commands.runOnce(intake::setIntake, intake));
-    operatorController.b().onTrue(Commands.runOnce(intake::setOutake, intake));
-    operatorController.x().onTrue(Commands.runOnce(() -> intake.setIntakeSpeed(0)));
-  }
+    
+
+    // controller.button(1)
+    //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
+    
+    // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
+    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
