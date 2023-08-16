@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -132,6 +133,12 @@ public final class Constants {
         public static final Setpoints kHighScore = new Setpoints(0.0, 0);
         public static final Setpoints kStowInFrame = new Setpoints(0.0, 0);
         public static final Setpoints kStowLow = new Setpoints(0.0, 0);
+    }
+
+    public static final class AutoConstants {
+      public static PIDController AutoXcontroller = new PIDController(DT, DT, DT); 
+      public static PIDController AutoYcontroller = new PIDController(DT, DT, DT); 
+      public static PIDController AutoRotationcontroller = new PIDController(DT, DT, DT);
     }
 
 }

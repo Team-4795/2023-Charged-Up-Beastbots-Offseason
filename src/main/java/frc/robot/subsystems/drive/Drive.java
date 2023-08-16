@@ -17,10 +17,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import org.littletonrobotics.junction.Logger;
+
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 public class Drive extends SubsystemBase {
   // Create field2d
@@ -233,5 +238,23 @@ public class Drive extends SubsystemBase {
       modules[3].getPosition()
     },
     pose);
+
+  }
+
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
+    return new PPSwerveControllerCommand(
+        traj,
+        this::getPose, // Pose supplier
+        DriveConstants.kDriveKinematics, // SwerveDriveKinematics
+        AutoConstants.AutoXcontroller, // X controller. Tune these values for your robot. Leaving them 0 will only
+                                        // use feedforwards.
+        AutoConstants.AutoYcontroller, // Y controller (usually the same values as X controller)
+        AutoConstants.AutoRotationcontroller, // Rotation controller. Tune these values for your robot. Leaving them
+                                              // 0 will only use feedforwards.
+        this::setModuleStates, // Module states consumer
+        true, // Should the path be automatically mirrored depending on alliance color.
+              // Optional, defaults to true
+        this // Requires this drive subsystem
+    );
   }
 }
