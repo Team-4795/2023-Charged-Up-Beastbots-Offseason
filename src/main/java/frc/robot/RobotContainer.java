@@ -47,6 +47,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Arm arm;
   private final Drive drive;
+  private final StateManager manager;
   // private final Vision vision;
 
   // Controller
@@ -64,6 +65,7 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOSim());
         arm = new Arm(new ArmIOSim());
         drive = new Drive(
@@ -76,6 +78,7 @@ public class RobotContainer {
 
       // Real robot, create hardware classes
       case REAL:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIOReal());
         arm = new Arm(new ArmIOReal());
         drive = new Drive(
@@ -88,6 +91,7 @@ public class RobotContainer {
 
       // Replayed robot, disable IO implementations
       default:
+        manager = StateManager.getInstance();
         intake = new Intake(new IntakeIO() {});
         arm = new Arm(new ArmIO() {});
         drive = new Drive(
@@ -115,6 +119,12 @@ public class RobotContainer {
         () -> -driverController.getLeftX(),
         () -> -driverController.getRightX(),
         () -> false));
+
+
+    operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
+    operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
+    operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
+    operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
 
     // Configure the button bindings
     configureButtonBindings();

@@ -11,6 +11,11 @@ public class Intake extends SubsystemBase {
   public Intake(IntakeIO io) {
     this.io = io;
   }
+
+  public static boolean isStoring(){
+    return true;
+  }
+
   
   @Override
   public void periodic() {
