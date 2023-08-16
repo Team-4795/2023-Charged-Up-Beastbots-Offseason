@@ -12,6 +12,17 @@ public class Intake extends SubsystemBase {
     this.io = io;
   }
 
+  public void setIntake() {
+    io.set(0.69);
+  }
+
+  public void setOutake() {
+    io.set(-0.69);
+  }
+
+  public void setIntakeSpeed(double speed){
+    io.set(speed);
+  }
   public static boolean isStoring(){
     return true;
   }
@@ -21,6 +32,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Intake", inputs);
-    io.set(1.0);
+
   }
 }
