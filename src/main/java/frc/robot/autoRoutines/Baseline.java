@@ -19,45 +19,12 @@ public class Baseline extends AutoRoutine {
     @Override
     public Command load(AutoCommands autoCommands) {
         SequentialCommandGroup baseline = new SequentialCommandGroup(
+            autoCommands.autoStartUp(baselinePath),
             autoCommands.changeStateCommand(State.LowScore),
+            autoCommands.Outtake(),
             autoCommands.followtrajectoryCommand(baselinePath)
         );
         return baseline;
-    }
-
-    public Command AutoStartUp(PathPlannerTrajectory traj, boolean flip, EndEffectorIntake m_intake) {
-        return 
-            new SequentialCommandGroup( 
-              new InstantCommand(() -> {
-              // Reset odometry for the first path you run during auto
-              if (flip) {
-                zeroReverseHeading();
-              } else {
-                zeroHeading();
-              }
-              
-              this.resetOdometry(PathPlannerTrajectory
-                  .transformTrajectoryForAlliance(traj, DriverStation.getAlliance())
-                  .getInitialHolonomicPose(), flip);
-              
-              this.setBreakMode();
-            })
-             // new InstantCommand(() -> m_intake.setOverrideStoring(true))
-              );
-    
-      }
-
-    private void setBreakMode() {
-    }
-
-    private void resetOdometry(Pose2d initialHolonomicPose, boolean flip) {
-    }
-
-    private void zeroHeading() {
-    }
-
-    private void zeroReverseHeading() {
-    }
-    
+    }       
     
 }
