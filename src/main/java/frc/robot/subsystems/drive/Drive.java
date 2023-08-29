@@ -16,16 +16,23 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.autoRoutines.EndEffectorIntake;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
+
 
 public class Drive extends SubsystemBase {
   // Create field2d
@@ -240,6 +247,38 @@ public class Drive extends SubsystemBase {
     pose);
 
   }
+  public Command AutoStartUp(PathPlannerTrajectory traj, boolean flip) {
+    return 
+        new SequentialCommandGroup( 
+          new InstantCommand(() -> {
+          // Reset odometry for the first path you run during auto
+          if (flip) {
+            zeroReverseHeading();
+          } else {
+            zeroHeading();
+          }
+          
+          this.resetOdometry(PathPlannerTrajectory
+              .transformTrajectoryForAlliance(traj, DriverStation.getAlliance())
+              .getInitialHolonomicPose());
+          
+          this.setBrakeMode();
+        })
+         // new InstantCommand(() -> m_intake.setOverrideStoring(true))
+        );      
+
+  }
+
+    public void zeroReverseHeading() {
+      gyroIO.reset();
+      gyroIO.setOffset(180);
+  }
+
+  
+  
+
+  
+
 
   public Command followTrajectoryCommand(PathPlannerTrajectory traj) {
     return new PPSwerveControllerCommand(
@@ -256,5 +295,7 @@ public class Drive extends SubsystemBase {
               // Optional, defaults to true
         this // Requires this drive subsystem
     );
+    
   }
 }
+
