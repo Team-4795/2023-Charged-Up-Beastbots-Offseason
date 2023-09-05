@@ -1,7 +1,10 @@
 package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.Setpoints;
 
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
@@ -10,6 +13,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Flywheel. */
   public Intake(IntakeIO io) {
     this.io = io;
+    setDefaultCommand(new RunCommand(this::stop));
   }
 
   public void setIntake() {
@@ -20,9 +24,14 @@ public class Intake extends SubsystemBase {
     io.set(-0.69);
   }
 
+  public void stop() {
+    io.set(0.0);
+  }
+
   public void setIntakeSpeed(double speed){
     io.set(speed);
   }
+
   public static boolean isStoring(){
     return true;
   }
