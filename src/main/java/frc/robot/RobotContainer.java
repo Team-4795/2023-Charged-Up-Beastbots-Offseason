@@ -43,7 +43,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Arm arm;
   private final Drive drive;
-  // private final Vision vision;
+  private final Vision vision = new Vision();
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
