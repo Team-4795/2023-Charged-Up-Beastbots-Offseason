@@ -11,7 +11,7 @@ public class Vision extends SubsystemBase {
     private double tx;
     private double ty;
     private double ta;
-    private double botPose;
+    private double[] botPose;
 
     public Vision() {
         table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -24,13 +24,13 @@ public class Vision extends SubsystemBase {
         tx = table.getEntry("tx").getDouble(0.0);
         ty = table.getEntry("tx").getDouble(0.0);
         ta = table.getEntry("tx").getDouble(0.0);
-        botPose = table.getEntry("botpose").getDouble(0.0);
+        botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
 
 
         SmartDashboard.putNumber("LimelightX", tx);
         SmartDashboard.putNumber("LimelightY", ty);
         SmartDashboard.putNumber("LimelightArea", ta);
-        SmartDashboard.putNumber("Bot Position", botPose);
+        SmartDashboard.putNumberArray("Bot Position", botPose);
 
 
     }
