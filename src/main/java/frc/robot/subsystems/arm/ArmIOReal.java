@@ -22,6 +22,9 @@ public class ArmIOReal implements ArmIO {
         rightArmMotor.setSmartCurrentLimit(30);
         encoder = leftArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
         leftArmMotor.setIdleMode(IdleMode.kBrake);
+
+        rightArmMotor.burnFlash();
+        leftArmMotor.burnFlash();
     }
 
     public void updateInputs(ArmIOInputs inputs) {

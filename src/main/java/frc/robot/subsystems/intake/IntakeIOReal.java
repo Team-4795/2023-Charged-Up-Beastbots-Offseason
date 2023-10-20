@@ -12,6 +12,8 @@ public class IntakeIOReal implements IntakeIO {
 
     public IntakeIOReal() {
         intakeMotor.restoreFactoryDefaults();
+        intakeMotor.setSmartCurrentLimit(25);
+        intakeMotor.burnFlash();
     }
 
     public void updateInputs(IntakeIOInputs inputs) {

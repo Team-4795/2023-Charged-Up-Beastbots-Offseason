@@ -60,7 +60,7 @@ public class StateManager extends VirtualSubsystem {
         if (Intake.isStoring()) {
             state = State.HighScore;
         } else {
-            state = State.MidScore;
+            state = State.StowInFrame;
         }
 
         setSetpoints();
@@ -68,9 +68,9 @@ public class StateManager extends VirtualSubsystem {
 
     public void dpadLeft() {
         if (Intake.isStoring()) {
-            state = State.LowScore;
+            state = State.StowInFrame;
         } else {
-            state = State.LowPickup;
+            state = State.StowInFrame;
         }
 
         setSetpoints();
@@ -87,7 +87,11 @@ public class StateManager extends VirtualSubsystem {
     }
 
     public void dpadRight() {
-        state = State.LowPickup;
+        if(Intake.isStoring()){ 
+        state = State.MidScore; 
+        } else { 
+        state = State.StowInFrame;
+        }
         setSetpoints();
     }
 
