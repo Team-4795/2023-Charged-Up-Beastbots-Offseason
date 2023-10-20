@@ -3,7 +3,10 @@ package frc.robot.subsystems.arm;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
@@ -13,7 +16,7 @@ public class Arm extends SubsystemBase {
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
   private final ArmVisualizer viz = new ArmVisualizer();
 
-  private final PIDController pidController;
+  private final ProfiledPIDController pidController;
 
   public double setpoint;
 
@@ -22,7 +25,8 @@ public class Arm extends SubsystemBase {
     this.io = io;
     io.updateInputs(inputs);
     setpoint = inputs.positionRev; //stops the arm from movnig upon start up
-    pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+    pidController = new ProfiledPIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD,
+      new TrapezoidProfile.Constraints(0.25, 1));
   }
 
   public void moveUp() {

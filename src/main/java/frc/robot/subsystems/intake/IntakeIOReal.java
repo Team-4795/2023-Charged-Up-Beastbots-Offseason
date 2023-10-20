@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 
 public class IntakeIOReal implements IntakeIO {
-    private final CANSparkMax intakeMotor = new CANSparkMax(0 /* Placeholder ID */, MotorType.kBrushless);
+    private final CANSparkMax intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
     private final RelativeEncoder encoder = intakeMotor.getEncoder();
 
     public IntakeIOReal() {

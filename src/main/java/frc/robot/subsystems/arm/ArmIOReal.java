@@ -9,13 +9,17 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import edu.wpi.first.math.MathUtil;
 
 public class ArmIOReal implements ArmIO {
-    private final CANSparkMax leftArmMotor = new CANSparkMax(0 /* Placeholder ID */, MotorType.kBrushless);
-    private final CANSparkMax rightArmMotor = new CANSparkMax(0 /* Placeholder ID */, MotorType.kBrushless);
+    private final CANSparkMax leftArmMotor = new CANSparkMax(10, MotorType.kBrushless);
+    private final CANSparkMax rightArmMotor = new CANSparkMax(11, MotorType.kBrushless);
 
     private final AbsoluteEncoder encoder;
 
     public ArmIOReal() {
         rightArmMotor.restoreFactoryDefaults();
+        rightArmMotor.setInverted(true);
+        rightArmMotor.follow(leftArmMotor);
+        leftArmMotor.setSmartCurrentLimit(30);
+        rightArmMotor.setSmartCurrentLimit(30);
         encoder = leftArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
         leftArmMotor.setIdleMode(IdleMode.kBrake);
     }

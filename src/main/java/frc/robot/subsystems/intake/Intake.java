@@ -13,7 +13,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Flywheel. */
   public Intake(IntakeIO io) {
     this.io = io;
-    setDefaultCommand(new RunCommand(this::stop));
+    setDefaultCommand(new RunCommand(this::stop, this));
   }
 
   public void setIntake() {
