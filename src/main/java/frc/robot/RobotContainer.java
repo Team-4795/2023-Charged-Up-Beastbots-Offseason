@@ -120,12 +120,6 @@ public class RobotContainer {
         () -> -driverController.getRightX(),
         () -> false));
 
-
-    operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
-    operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
-    operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
-    operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
-
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -146,6 +140,14 @@ public class RobotContainer {
     // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
     operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
     operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+
+    operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
+    operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
+    operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
+    operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
+
+    operatorController.leftBumper().onTrue(Commands.run(intake::setIntake, intake));
+    operatorController.rightBumper().onTrue(Commands.run(intake::setOutake, intake));
 
     }
 
