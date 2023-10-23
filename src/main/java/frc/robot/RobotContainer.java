@@ -8,6 +8,7 @@ import java.time.Instant;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,11 +17,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ControlConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
-import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.GyroIOSim;
@@ -46,7 +49,7 @@ public class RobotContainer {
   // Subsystems
   private final Intake intake;
   private final Arm arm;
-  private final Drive drive;
+  private final DriveSubsystem drive;
   private final StateManager manager;
   // private final Vision vision;
 
@@ -68,12 +71,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         arm = new Arm(new ArmIOSim());
         manager = new StateManager(arm, intake);
-        drive = new Drive(
-          new GyroIOSim(),
-          new ModuleIOSim(),
-          new ModuleIOSim(),
-          new ModuleIOSim(),
-          new ModuleIOSim());
+        drive = new DriveSubsystem();
         break;
 
       // Real robot, create hardware classes
@@ -81,12 +79,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOReal());
         arm = new Arm(new ArmIOReal());
         manager = new StateManager(arm, intake);
-        drive = new Drive(
-          new GyroIONavX(),
-          new ModuleIOSparkMax(0),
-          new ModuleIOSparkMax(1),
-          new ModuleIOSparkMax(2),
-          new ModuleIOSparkMax(3));
+        drive = new DriveSubsystem();
         break;
 
       // Replayed robot, disable IO implementations
@@ -94,12 +87,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIO() {});
         arm = new Arm(new ArmIO() {});
         manager = new StateManager(arm, intake);
-        drive = new Drive(
-          new GyroIO() {},
-          new ModuleIO() {},
-          new ModuleIO() {},
-          new ModuleIO() {},
-          new ModuleIO() {});
+        drive = new DriveSubsystem();
         break;
     }
 
@@ -113,12 +101,16 @@ public class RobotContainer {
     // );
 
     drive.setDefaultCommand(
-      new DriveWithJoysticks(
-        drive,
-        () -> -driverController.getLeftY(),
-        () -> -driverController.getLeftX(),
-        () -> -driverController.getRightX(),
-        () -> false));
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+          () -> drive.drive(
+              MathUtil.applyDeadband(ControlConstants.driverController.getRawAxis(ControlConstants.kDriveXSpeedAxis), OIConstants.kDriveDeadband),
+              MathUtil.applyDeadband(-ControlConstants.driverController.getRawAxis(ControlConstants.kDriveYSpeedAxis), OIConstants.kDriveDeadband),
+              MathUtil.applyDeadband(-ControlConstants.driverController.getRawAxis(ControlConstants.kDriveRotationAxis), OIConstants.kDriveDeadband),
+              true,true),
+          drive));
+
 
     // Configure the button bindings
     configureButtonBindings();
