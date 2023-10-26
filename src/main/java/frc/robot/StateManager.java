@@ -1,6 +1,5 @@
 package frc.robot;
 
-import frc.robot.Constants.ConeSetpointConstants;
 import frc.robot.Constants.CubeSetpointConstants;
 import frc.robot.subsystems.arm.*;
 import frc.robot.subsystems.intake.*;

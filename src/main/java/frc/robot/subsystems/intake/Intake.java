@@ -17,11 +17,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntake() {
-    io.set(0.69);
+    io.set(0.3);
   }
 
   public void setOutake() {
-    io.set(-0.69);
+    io.set(-0.3);
   }
 
   public void stop() {

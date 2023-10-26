@@ -62,7 +62,7 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAngularSpeed = 3 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 10.0; // radians per second
@@ -88,7 +88,7 @@ public final class Constants {
 
     // Chassis Angular Offset
 
-    public static final double kChassisAngularOffset = -90;
+    public static final double kChassisAngularOffset = 0;
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 2;
@@ -155,7 +155,7 @@ public final class Constants {
 }
 
   public static final class ArmConstants{
-    public static final double kP = 1;
+    public static final double kP = 0.75;
     public static final double kI = 0;
     public static final double kD = 0;
 
@@ -177,16 +177,7 @@ public final class Constants {
        
     }
 
-    public static final class ConeSetpointConstants {
-        public static final Setpoints kLowPickup = new Setpoints(0.0, 0);
-        public static final Setpoints kStowHigh = new Setpoints(0.0, 0);
-        public static final Setpoints kDoubleFeeder = new Setpoints(0.0, 0);
-        public static final Setpoints kLowScore = new Setpoints(0.0, 0);
-        public static final Setpoints kMidScore = new Setpoints(0.0, 0);
-        public static final Setpoints kHighScore = new Setpoints(0.0, 0);
-        public static final Setpoints kStowInFrame = new Setpoints(0.0, 0);
-        public static final Setpoints kStowLow = new Setpoints(0.0, 0);
-    }
+
     
     public static final class AutoConstants {
       public static final double kMaxSpeedMetersPerSecond = 3;

@@ -2,6 +2,7 @@ package frc.robot.subsystems.arm;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -12,7 +13,7 @@ public class ArmIOReal implements ArmIO {
     private final CANSparkMax leftArmMotor = new CANSparkMax(10, MotorType.kBrushless);
     private final CANSparkMax rightArmMotor = new CANSparkMax(11, MotorType.kBrushless);
 
-    private final AbsoluteEncoder encoder;
+    private final RelativeEncoder encoder;
 
     public ArmIOReal() {
         rightArmMotor.restoreFactoryDefaults();
@@ -20,7 +21,9 @@ public class ArmIOReal implements ArmIO {
         rightArmMotor.follow(leftArmMotor);
         leftArmMotor.setSmartCurrentLimit(30);
         rightArmMotor.setSmartCurrentLimit(30);
-        encoder = leftArmMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        encoder = leftArmMotor.getEncoder();
+        encoder.setPosition(0);
+        encoder.setPositionConversionFactor(1.0/90.0);
         leftArmMotor.setIdleMode(IdleMode.kBrake);
 
         rightArmMotor.burnFlash();
