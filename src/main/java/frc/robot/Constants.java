@@ -88,7 +88,7 @@ public final class Constants {
 
     // Chassis Angular Offset
 
-    public static final double kChassisAngularOffset = -90;
+    public static final double kChassisAngularOffset = 0;
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 2;
