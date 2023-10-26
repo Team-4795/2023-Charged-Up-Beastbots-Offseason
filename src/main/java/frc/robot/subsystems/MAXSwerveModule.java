@@ -29,7 +29,7 @@ public class MAXSwerveModule {
   private final SparkMaxPIDController m_turningPIDController;
 
   private double m_chassisAngularOffset = 0;
-  private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
+  private SwerveModuleState m_desiredState = new SwerveModuleState(3, new Rotation2d());
 
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -162,8 +162,6 @@ public class MAXSwerveModule {
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
   }
-
-  
   public void setBreakMode()
   {
     m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
