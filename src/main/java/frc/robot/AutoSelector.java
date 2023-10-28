@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.autoRoutines.AutoRoutine;
 import frc.robot.autoRoutines.Nothing;
 import frc.robot.commands.AutoCommands;
+import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.intake.Intake;
 
 
 public class AutoSelector {
@@ -13,8 +16,8 @@ public class AutoSelector {
 
     AutoCommands autoCommands;
 
-    public AutoSelector() {
-        autoCommands = new AutoCommands();
+    public AutoSelector(Drive drive, Arm arm, Intake intake, StateManager state) {
+        autoCommands = new AutoCommands(drive, arm, intake, state);
 
         chooser.addDefaultOption("Nothing", new Nothing());
     }

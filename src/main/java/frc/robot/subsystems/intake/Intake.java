@@ -10,7 +10,7 @@ public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  /** Creates a new Flywheel. */
+  /** Creates a new intake. */
   public Intake(IntakeIO io) {
     this.io = io;
     setDefaultCommand(new RunCommand(this::stop, this));
