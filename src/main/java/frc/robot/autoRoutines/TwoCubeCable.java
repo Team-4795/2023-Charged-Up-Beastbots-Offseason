@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.StateManager.State;
 import frc.robot.commands.AutoCommands;
 
-public class TwoCubeCable extends AutoCommands {
+public class TwoCubeCable extends AutoRoutine {
     
     PathPlannerTrajectory twoCube1 = PathPlanner.loadPath("Two Cube Cable Part 1", new PathConstraints(4, 3));
     PathPlannerTrajectory twoCube2 = PathPlanner.loadPath("Two Cube Cable Part 1", new PathConstraints(4, 3));
@@ -24,10 +24,8 @@ public class TwoCubeCable extends AutoCommands {
             autoCommands.IntakeTrajectory(twoCube1),
             autoCommands.ScoreTrajectory("mid", twoCube2),
             autoCommands.Outtake(),
-            autoCommands.followtrajectoryCommand(twocube3),
-            autoCommands.autoBala
+            autoCommands.followtrajectoryCommand(twoCube3)
         );
         return TwoCubeCable;
-  } 
-  return TwoCubeCable 
+    } 
 }
