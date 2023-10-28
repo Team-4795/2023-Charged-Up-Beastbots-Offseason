@@ -20,7 +20,7 @@ public class Baseline extends AutoRoutine {
     public Command load(AutoCommands autoCommands) {
         SequentialCommandGroup baseline = new SequentialCommandGroup(
             autoCommands.autoStartUp(baselinePath),
-            autoCommands.changeStateCommand(State.LowScore),
+            autoCommands.changeStateCommand(State.LowScore).withTimeout(3),
             autoCommands.Outtake(),
             autoCommands.followtrajectoryCommand(baselinePath)
         );
