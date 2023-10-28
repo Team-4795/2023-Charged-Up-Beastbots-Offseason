@@ -17,8 +17,8 @@ public class ArmIOReal implements ArmIO {
 
     public ArmIOReal() {
         rightArmMotor.restoreFactoryDefaults();
-        rightArmMotor.setInverted(true);
-        rightArmMotor.follow(leftArmMotor);
+        // rightArmMotor.setInverted(true);
+        rightArmMotor.follow(leftArmMotor, true);
         leftArmMotor.setSmartCurrentLimit(30);
         rightArmMotor.setSmartCurrentLimit(30);
         encoder = leftArmMotor.getEncoder();
