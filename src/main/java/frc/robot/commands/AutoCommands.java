@@ -9,16 +9,17 @@ import frc.robot.StateManager;
 import frc.robot.StateManager.State;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 
 /* File where all commands used in auto routines can be stored */
 public class AutoCommands {
-    private Drive drive;
+    private DriveSubsystem drive;
     private Arm arm;
     private Intake intake;
     private StateManager state;
 
-    public AutoCommands(Drive drive, Arm arm, Intake intake, StateManager state) {
+    public AutoCommands(DriveSubsystem drive, Arm arm, Intake intake, StateManager state) {
         this.drive = drive;
         this.arm = arm;
         this.intake = intake;
@@ -69,7 +70,7 @@ public class AutoCommands {
     }
 
     public Command autoStartUp(PathPlannerTrajectory trajectory){
-        return Commands.runOnce(() -> drive.AutoStartUp(trajectory, false));
+        return Commands.runOnce(() -> drive.AutoStartUp(trajectory));
     }
 
     public Command ScoreTrajectory(String Position, PathPlannerTrajectory Trajectory) {
@@ -86,4 +87,5 @@ public class AutoCommands {
                     Intake()
                 ));
     }
+
 }

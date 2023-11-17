@@ -59,7 +59,8 @@ public class RobotContainer {
 
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
+  private final AutoSelector selector;
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -90,6 +91,8 @@ public class RobotContainer {
         drive = new DriveSubsystem();
         break;
     }
+    
+    selector = new AutoSelector(drive, arm, intake, manager);
 
     // Run arm using axis 1 (W,S) as input
     // Multiply input by 0.5 to reduce speed
@@ -111,6 +114,18 @@ public class RobotContainer {
               true,true),
           drive));
 
+    // arm.setDefaultCommand(
+    //     new RunCommand(
+    //       () -> {
+    //         double up = MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), OIConstants.kArmDeadband);
+    //         double down = MathUtil.applyDeadband(operatorController.getLeftTriggerAxis(), OIConstants.kArmDeadband);
+
+    //         double change = OIConstants.kArmManualSpeed * (Math.pow(up, 2) - Math.pow(down, 2));
+
+    //         arm.move(change);
+    //       }, arm)
+    //   );
+
 
     // Configure the button bindings
     configureButtonBindings();
@@ -130,17 +145,26 @@ public class RobotContainer {
     //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
     
     // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
-    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
-    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+    //operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    //operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
 
     operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
     operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
     operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
     operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
 
-    operatorController.leftBumper().onTrue(Commands.run(intake::setIntake, intake));
-    operatorController.rightBumper().onTrue(Commands.run(intake::setOutake, intake));
+    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
 
+    operatorController.leftBumper().whileTrue(Commands.run(intake::setIntake, intake));
+    operatorController.rightBumper().whileTrue(Commands.run(intake::setOutake, intake));
+
+    driverController.a().onTrue(Commands.runOnce(drive::zeroHeading, drive));
+
+    }
+
+    public void zeroHeading() {
+      drive.zeroHeading();
     }
 
   /**
@@ -149,6 +173,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
+    return selector.getSelected();
+    //return Commands.none();
   }
 }

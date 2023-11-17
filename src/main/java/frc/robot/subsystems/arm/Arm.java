@@ -29,9 +29,13 @@ public class Arm extends SubsystemBase {
       new TrapezoidProfile.Constraints(0.25, 1));
   }
 
+  public void move(double speed) {
+    io.set(speed);
+  }
+
   public void moveUp() {
-    if(setpoint < ArmConstants.maxPosRev)
-      this.setpoint += 0.01;
+    if(setpoint >= ArmConstants.maxPosRev)
+      this.setpoint -= 0.01;
   }
 
   public void setPoint(double Position) {
@@ -39,18 +43,19 @@ public class Arm extends SubsystemBase {
   }
     
   public void moveDown() {
-    if(setpoint > ArmConstants.minPosRev)
-      this.setpoint -= 0.01;
+    if(setpoint <= ArmConstants.minPosRev)
+      this.setpoint += 0.01;
   }
 
   @Override
   public void periodic() {
     // Update and log inputs
     io.set(pidController.calculate(inputs.positionRev, setpoint));
-
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
     SmartDashboard.putNumber("Arm setpoint", setpoint);
+    SmartDashboard.putNumber("Arm position", inputs.positionRev);
+    SmartDashboard.putNumber("Arm current", inputs.currentAmps);
 
     // Update visualizer position
     viz.update(inputs.positionRev);

@@ -18,7 +18,7 @@ public class TwoCubeCable extends AutoRoutine {
     @Override
     public Command load(AutoCommands autoCommands) {
         SequentialCommandGroup TwoCubeCable = new SequentialCommandGroup(
-            autoCommands.autoStartUp(twoCube1),
+            autoCommands.autoStartUp(twoCube2),
             autoCommands.changeStateCommand(State.HighScore),
             autoCommands.Outtake(),
             autoCommands.IntakeTrajectory(twoCube1),
