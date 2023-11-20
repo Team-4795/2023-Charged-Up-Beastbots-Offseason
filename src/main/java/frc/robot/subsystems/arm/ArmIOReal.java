@@ -28,7 +28,7 @@ public class ArmIOReal implements ArmIO {
 
         encoder = rightArmMotor.getEncoder();
         encoder.setPosition(0);
-        encoder.setPositionConversionFactor(1.0/30.0);
+        encoder.setPositionConversionFactor(1.0/45.0);
         leftArmMotor.setIdleMode(IdleMode.kBrake);
 
         leftArmMotor.enableSoftLimit(SoftLimitDirection.kForward, false);

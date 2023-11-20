@@ -114,18 +114,19 @@ public class RobotContainer {
               true,true),
           drive));
 
-    // arm.setDefaultCommand(
-    //     new RunCommand(
-    //       () -> {
-    //         double up = MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), OIConstants.kArmDeadband);
-    //         double down = MathUtil.applyDeadband(operatorController.getLeftTriggerAxis(), OIConstants.kArmDeadband);
+/* 
+    arm.setDefaultCommand(
+         new RunCommand(
+           () -> {
+             double up = MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), OIConstants.kArmDeadband);
+             double down = MathUtil.applyDeadband(operatorController.getLeftTriggerAxis(), OIConstants.kArmDeadband);
 
-    //         double change = OIConstants.kArmManualSpeed * (Math.pow(up, 2) - Math.pow(down, 2));
+             double change = OIConstants.kArmManualSpeed * (Math.pow(up, 2) - Math.pow(down, 2));
 
-    //         arm.move(change);
-    //       }, arm)
-    //   );
-
+             arm.move(change);
+           }, arm)
+       );
+*/
 
     // Configure the button bindings
     configureButtonBindings();
@@ -145,16 +146,16 @@ public class RobotContainer {
     //     .whileTrue(new StartEndCommand(flywheel::run, flywheel::stop, flywheel));
     
     // operatorController.a().whileTrue(Commands.runOnce(arm::moveUp, arm));
-    //operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
-    //operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
 
     operatorController.povUp().onTrue(Commands.runOnce(manager::dpadUp));
     operatorController.povLeft().onTrue(Commands.runOnce(manager::dpadLeft));
     operatorController.povRight().onTrue(Commands.runOnce(manager::dpadRight));
     operatorController.povDown().onTrue(Commands.runOnce(manager::dpadDown));
 
-    operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
-    operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
+    //operatorController.rightTrigger().whileTrue(Commands.run(arm::moveDown, arm));
+    //operatorController.leftTrigger().whileTrue(Commands.run(arm::moveUp, arm));
 
     operatorController.leftBumper().whileTrue(Commands.run(intake::setIntake, intake));
     operatorController.rightBumper().whileTrue(Commands.run(intake::setOutake, intake));
